@@ -10,3 +10,60 @@ Img2ST-Net: Efficient High-Resolution Spatial Transcriptomics Prediction from Hi
 ![Figure2_framework](./fig/Figure2_framework.png)
 
 **Overall framework of our proposed Img2ST-Net:** Fig 2: Overall framework of our proposed Img2ST-Net. Region-level histological patches are processed through a UNet-based architecture to predict high-resolution gene expression maps. Simultaneously, regional gene expression profiles are encoded into embeddings using a frozen expression encoder. A contrastive loss aligns these embeddings with intermediate image features, facilitating accurate and efficient spatial gene expression prediction.
+
+## Environment Setup
+
+We recommend using [conda](https://docs.conda.io/en/latest/) to manage the environment.
+
+```bash
+# create a new environment
+conda create -n stpred python=3.9 -y
+conda activate stpred
+
+# install dependencies
+pip install -r requirements.txt
+```
+
+## Dataset Preparation
+
+Organize the dataset directory as follows:
+
+```
+datasets/
+  ├── BC/
+  │   ├── raw_setting/
+  │      └── A.npy
+  │   └── data_infor/
+  │      └── A.npy
+  │   └── cropped_img/
+  └── CRC/
+```
+
+Each dataset should contain the preprocessed `.npy` files required by the dataloader.
+
+## Running Example
+
+Single-GPU example
+
+```
+python main.py \
+  --root_path ./datasets/BC \
+  --exp_name test_run \
+  --epochs 2 \
+  --batch_size 4 \
+  --test_slide D.npy \
+  --bin_num 1
+```
+
+Multi-GPU example
+
+```
+torchrun --nproc_per_node=2 main.py \
+  --root_path ./datasets/BC \
+  --exp_name test_run_ddp \
+  --epochs 2 \
+  --batch_size 4 \
+  --test_slide D.npy \
+  --bin_num 1
+```
+

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/data_preprocessing.iml" filepath="$PROJECT_DIR$/.idea/data_preprocessing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Img2ST-Net.iml" filepath="$PROJECT_DIR$/.idea/Img2ST-Net.iml" />
     </modules>
   </component>
 </project>
