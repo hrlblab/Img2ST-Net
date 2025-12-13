@@ -1,4 +1,4 @@
-
+import os
 import numpy as np
 from PIL import Image
 from torch.utils.data import Dataset, DataLoader
@@ -22,9 +22,14 @@ class STdata(Dataset):
     def __getitem__(self, idx):
         label = self.label[idx]['label']
         if self.is_raw:
-            img_path = self.label[idx]['img_path']
+            raw_path = self.label[idx]['img_path']
+            if '../datasets/' in raw_path:
+                rel_part = raw_path.split('../datasets/')[-1]
+                img_path = os.path.join(os.path.dirname(self.root), rel_part)
+            else:
+                img_path = raw_path
             label = np.expand_dims(label, axis=0)
-            image = Image.open(img_path).convert("RGB").resize((112, 112))
+            image = Image.open(img_path).convert("RGB").resize((224, 224))
         else:
             img_path = '.'+self.label[idx]['img_path']
             image = Image.open(img_path).convert("RGB")
@@ -32,6 +37,31 @@ class STdata(Dataset):
         if self.transform:
             image = self.transform(image)
         return image, np.log1p(label.astype(np.float32))
+
+
+class STDataset(Dataset):
+    def __init__(self, data, transform=None, root_path=None):
+        self.data = data
+        self.transform = transform
+        self.root_path = root_path
+
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, idx):
+        item = self.data[idx]
+        img_path = item['img_path']
+        if self.root_path:
+            parts = img_path.split('cropped_img/')
+            if len(parts) > 1:
+                img_path = os.path.join(self.root_path, 'cropped_img', parts[-1])
+
+        image = Image.open(img_path).convert('RGB')
+        if self.transform:
+            image = self.transform(image)
+
+        label = np.log1p(item['label'].astype(np.float32))
+        return image, label
 
 
 class ImageGraphDataset(Dataset):
@@ -59,3 +89,4 @@ def create_dataloaders_for_each_file(npy_file_paths, batch_size=256, transform=N
         dataset = ImageGraphDataset(npy_file, transform=transform)
         dataloaders[npy_file] = DataLoader(dataset, batch_size=batch_size, shuffle=True)
     return dataloaders
+
