@@ -44,7 +44,7 @@ def compute_ssim_loss(pred, target):
     data_range = torch.clamp(data_range, min=1e-8)
 
     # Use pytorch_msssim, win_size=7 consistent with eval
-    ssim_val = ssim(pred, target, data_range=data_range, size_average=True, win_size=7)
+    ssim_val = ssim(pred, target, data_range=data_range, size_average=True, win_size=7, K=(0.02, 0.05))
 
     return 1 - ssim_val
 
@@ -63,7 +63,7 @@ def main():
     parser.add_argument('--ctr_lr', type=float, default=1e-5)
     parser.add_argument('--ctr_model_lr', type=float, default=1e-6)
     parser.add_argument('--ctr_weight', type=float, default=0.01)
-    parser.add_argument('--ssim_weight', type=float, default=0.3)
+    parser.add_argument('--ssim_weight', type=float, default=0.5)
     parser.add_argument('--lr_decay', type=float, default=0.9)
     parser.add_argument('--seed', type=int, default=1337)
     parser.add_argument('--batch_size', type=int, default=64)
@@ -231,7 +231,7 @@ def main():
                         joint_max = max(p.max(), g.max())
                         dr = joint_max - joint_min
                         if dr > 0:
-                            s = calc_ssim(g, p, data_range=dr, channel_axis=-1)
+                            s = calc_ssim(g, p, data_range=dr, channel_axis=-1, K1=0.02, K2=0.05)
                             ssim_list.append(s)
                         else:
                             ssim_list.append(1.0)  # Consistent with eval
