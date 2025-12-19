@@ -57,7 +57,7 @@ def save_checkpoint(payload, ckpt_path):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--root_path', type=str, default='../datasets/BC')
-    parser.add_argument('--exp_name', type=str, default='166_BC_new')
+    parser.add_argument('--exp_name', type=str, default='test_BC''
     parser.add_argument('--max_iterations', type=int, default=1000000)
     parser.add_argument('--base_lr', type=float, default=1e-4)
     parser.add_argument('--ctr_lr', type=float, default=1e-5)
