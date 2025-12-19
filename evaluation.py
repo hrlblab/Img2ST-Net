@@ -169,3 +169,5 @@ if __name__ == "__main__":
     pred_npy_path = './predictions/crc_08/predictions.npy'
     gt_npy_path   = './predictions/crc_08/ground_truths.npy'
     evaluate_predictions(pred_npy_path, gt_npy_path, save_dir='./result/crc_08', patch_size=7)
+
+
