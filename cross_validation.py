@@ -51,7 +51,7 @@ def get_train_val_paths(root_path, test_slide_name):
 #     return train_paths, val_paths
 
 
-def get_train_val_data(root_path, test_slide_name, augment_ratio=0.1, seed=42):
+def get_train_val_data(root_path, test_slide_name, augment_ratio=0.05, seed=42):
     root_path = Path(root_path)
     all_npy_files = list(root_path.glob("*.npy"))
 
