@@ -69,8 +69,8 @@ def main():
     parser.add_argument('--batch_size', type=int, default=64)
     parser.add_argument('--level', type=str, default='16')
     parser.add_argument('--epochs', type=int, default=150)
-    parser.add_argument('--test_slide', type=str, default='D.npy')
-    parser.add_argument('--bin_num', type=int, default=196)
+    parser.add_argument('--test_slide', type=str, default='B.npy')
+    parser.add_argument('--bin_num', type=int, default=49)
     parser.add_argument('--pred_dim', type=int, default=300)
 
     parser.add_argument('--sample_ratio', type=float, default=1.0)
